@@ -10,6 +10,7 @@ import contextlib
 import base64
 import textwrap
 from pathlib import Path
+from shapely.geometry import Point, LineString, MultiLineString
 
 import streamlit as st
 
