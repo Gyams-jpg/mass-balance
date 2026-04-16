@@ -1392,8 +1392,15 @@ bin_stats['Perimeter'] = df_result['Boundary Length (m)'].values
 bin_stats
 
 # %% [cell 55]
+# %% [cell 55]
+if snd1 is not None and os.path.exists(snd1) and snd2 is not None and os.path.exists(snd2):
+    mb_col = 'seasonal_MB'
+else:
+    mb_col = 'seasonal_MB_no_snow'
 
-bin_stats['Area_Average_MB']=(bin_stats['seasonal_MB']*bin_stats['area_average'])/(np.sum(bin_stats['area_average']))
+bin_stats['Area_Average_MB'] = (
+    bin_stats[mb_col] * bin_stats['area_average']
+) / np.sum(bin_stats['area_average'])
 
 # %% [cell 56]
 bin_stats
