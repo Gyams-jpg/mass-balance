@@ -1112,17 +1112,26 @@ bin_stats
 
 # %% [cell 43]
 
-if snd1 is not None and os.path.exists(snd1):
+if (
+    snd1 is not None and os.path.exists(snd1) and
+    snd2 is not None and os.path.exists(snd2)
+):
     bin_stats['snow_depth_2024'] = mid_bin_snd1
     bin_stats['snow_depth_2025'] = mid_bin_snd2
-    bin_stats['diff_snow_depth_2025'] = mid_bin_snd2-mid_bin_snd1
+    bin_stats['diff_snow_depth_2025'] = mid_bin_snd2 - mid_bin_snd1
 else:
-    print(f"no such files")
+    print("snow files not fully provided or missing")
 
 # %% [cell 44]
 
-if snd1 is not None and os.path.exists(snd1):
-    bin_stats['seasonal_MB'] = (880 * bin_stats['diff_pred'] + bin_stats['diff_snow_depth_2025'] * (400-880))
+if (
+    snd1 is not None and os.path.exists(snd1) and
+    snd2 is not None and os.path.exists(snd2)
+):
+    bin_stats['seasonal_MB'] = (
+        880 * bin_stats['diff_pred']
+        + bin_stats['diff_snow_depth_2025'] * (400 - 880)
+    )
 else:
     bin_stats['seasonal_MB_no_snow'] = (880 * bin_stats['diff_pred'])
 
@@ -1476,5 +1485,4 @@ bin_stats.to_csv(os.path.join(output_dir, "uncertainty_results.csv"), index=Fals
 
 
 # %% [cell 59]
-
 
