@@ -8,14 +8,13 @@ import shutil
 import tempfile
 import traceback
 import contextlib
+import base64
 from pathlib import Path
 
 import streamlit as st
 
 st.set_page_config(page_title="Thana Notebook Streamlit Wrapper", layout="wide")
 
-st.title("Thana notebook workflow — Streamlit wrapper")
-st.caption("This app preserves the notebook step order and calculation logic, and only wraps file input/output so the notebook can run inside Streamlit.")
 BASE_DIR = Path(__file__).parent
 ASSETS_DIR = BASE_DIR / "assets"
 
@@ -25,7 +24,7 @@ def img_to_base64(path):
         return base64.b64encode(path.read_bytes()).decode()
     return ""
 
-logo_b64 = img_to_base64(ASSETS_DIR / "logo.jpeg")
+logo_b64 = img_to_base64(ASSETS_DIR / "logo.png")
 bg_b64 = img_to_base64(ASSETS_DIR / "glacier_background.png")
 
 st.markdown(
@@ -118,12 +117,12 @@ st.markdown(
     <div class="hero-wrap">
 
         <div class="hero-top">
-            <img src="data:image/jpeg;base64,{logo_b64}">
+            <img src="data:image/png;base64,{logo_b64}">
             <div class="hero-org">
                 <h2>National Center for Hydrology and Meteorology</h2>
                 <p>Royal Government of Bhutan</p>
             </div>
-            <img src="data:image/jpeg;base64,{logo_b64}">
+            <img src="data:image/png;base64,{logo_b64}">
         </div>
 
         <div class="hero-main">
