@@ -1,1 +1,0 @@
-# Glacier Mass Balance Calculation App
