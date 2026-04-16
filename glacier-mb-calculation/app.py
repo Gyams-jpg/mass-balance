@@ -97,14 +97,14 @@ banner_html = textwrap.dedent(f"""
     </div>
     <div class="hero-main">
         <div class="hero-card">
-            <h1>Thana Glacier Mass Balance Calculation</h1>
-            <p>Cryosphere Services Division - Thana notebook workflow.</p>
+            <h1> Glacier Mass Balance Calculation</h1>
+            <p>Cryosphere Services Division - mass balance notebook workflow.</p>
         </div>
     </div>
 </div>
 
 <div class="hero-note">
-    This app follows the uploaded Thana notebook workflow:
+    This app follows the script based mass balance calculation notebook workflow:
     IDW interpolation → DEM bias correction → glacier-clipped hypsometry
     → nearest-point differencing → optional snow correction
     → SMB and uncertainty summary.
