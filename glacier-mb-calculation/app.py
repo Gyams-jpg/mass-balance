@@ -61,7 +61,7 @@ banner_html = textwrap.dedent(f"""
 }}
 .hero-card {{
     width: min(1260px, 86%);
-    background: rgba(20,30,45,0.34);
+    background: transparent;
     border: 1px solid rgba(255,255,255,0.10);
     border-radius: 30px;
     padding: 52px 40px;
