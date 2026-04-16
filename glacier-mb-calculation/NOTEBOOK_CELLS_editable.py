@@ -1221,23 +1221,20 @@ plt.show()
 
 from shapely.geometry import LineString, MultiLineString
 def get_boundary_segments(glacier_shp_path):
-    """
-    Reads a glacier polygon shapefile and returns:
-    - segments: list of ((x1, y1), (x2, y2)) boundary segments
-    - crs: CRS of the shapefile
-    """
     gdf = gpd.read_file(glacier_shp_path)
     boundary = gdf.geometry.boundary.unary_union
 
-    # Handle LineString vs MultiLineString
-    lines = boundary.geoms if isinstance(boundary, MultiLineString) else [boundary]
-    
+    if boundary.geom_type == "MultiLineString":
+        lines = list(boundary.geoms)
+    else:
+        lines = [boundary]
+
     segments = []
     for line in lines:
         coords = list(line.coords)
         for i in range(len(coords) - 1):
-            segments.append((coords[i], coords[i+1]))
-    
+            segments.append((coords[i], coords[i + 1]))
+
     return segments, gdf.crs
 
 # --------------------------------------------------------------------
