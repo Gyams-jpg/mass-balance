@@ -11,6 +11,7 @@ import geopandas as gpd
 import rasterio
 from rasterio.mask import mask
 from sklearn.linear_model import TheilSenRegressor
+from shapely.geometry import Point, LineString, MultiLineString
 
 # %% [cell 2]
 import pandas as pd
