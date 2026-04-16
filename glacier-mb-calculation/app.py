@@ -16,7 +16,134 @@ st.set_page_config(page_title="Thana Notebook Streamlit Wrapper", layout="wide")
 
 st.title("Thana notebook workflow — Streamlit wrapper")
 st.caption("This app preserves the notebook step order and calculation logic, and only wraps file input/output so the notebook can run inside Streamlit.")
+BASE_DIR = Path(__file__).parent
+ASSETS_DIR = BASE_DIR / "assets"
 
+def img_to_base64(path):
+    path = Path(path)
+    if path.exists():
+        return base64.b64encode(path.read_bytes()).decode()
+    return ""
+
+logo_b64 = img_to_base64(ASSETS_DIR / "logo.jpeg")
+bg_b64 = img_to_base64(ASSETS_DIR / "glacier_background.png")
+
+st.markdown(
+    f"""
+    <style>
+    .hero-wrap {{
+        border-radius: 28px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255,255,255,0.08);
+    }}
+
+    .hero-top {{
+        background: white;
+        padding: 18px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }}
+
+    .hero-top img {{
+        height: 88px;
+        object-fit: contain;
+    }}
+
+    .hero-org {{
+        flex: 1;
+        text-align: center;
+        color: black;
+        line-height: 1.2;
+    }}
+
+    .hero-org h2 {{
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+    }}
+
+    .hero-org p {{
+        margin: 6px 0 0 0;
+        font-size: 1.05rem;
+    }}
+
+    .hero-main {{
+        min-height: 430px;
+        background-image:
+            linear-gradient(rgba(8,20,45,0.45), rgba(8,20,45,0.70)),
+            url("data:image/png;base64,{bg_b64}");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }}
+
+    .hero-card {{
+        width: min(1100px, 88%);
+        background: rgba(20,30,45,0.35);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 26px;
+        padding: 48px 36px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }}
+
+    .hero-card h1 {{
+        margin: 0;
+        font-size: 3rem;
+        color: white;
+        font-weight: 800;
+    }}
+
+    .hero-card p {{
+        margin-top: 18px;
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.92);
+    }}
+
+    .hero-note {{
+        margin-top: 16px;
+        background: rgba(49,99,190,0.18);
+        color: #79b0ff;
+        border-radius: 14px;
+        padding: 18px 20px;
+        font-size: 1rem;
+    }}
+    </style>
+
+    <div class="hero-wrap">
+
+        <div class="hero-top">
+            <img src="data:image/jpeg;base64,{logo_b64}">
+            <div class="hero-org">
+                <h2>National Center for Hydrology and Meteorology</h2>
+                <p>Royal Government of Bhutan</p>
+            </div>
+            <img src="data:image/jpeg;base64,{logo_b64}">
+        </div>
+
+        <div class="hero-main">
+            <div class="hero-card">
+                <h1>Thana Glacier Mass Balance Calculation</h1>
+                <p>Cryosphere Services Division - Thana notebook workflow.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="hero-note">
+        This app follows the uploaded Thana notebook workflow:
+        IDW interpolation → DEM bias correction → glacier-clipped hypsometry
+        → nearest-point differencing → optional snow correction
+        → SMB and uncertainty summary.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 def load_notebook_cells_from_readable(py_path):
     text = Path(py_path).read_text(encoding="utf-8")
     parts = re.split(r"^# %% \[cell \d+\]\s*$", text, flags=re.M)
