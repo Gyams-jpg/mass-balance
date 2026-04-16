@@ -62,13 +62,13 @@ banner_html = textwrap.dedent(f"""
 .hero-card {{
     width: min(1260px, 86%);
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 30px;
+    border: none;
+    border-radius: 0;
     padding: 52px 40px;
     text-align: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
 }}
 .hero-card h1 {{
     margin: 0;
