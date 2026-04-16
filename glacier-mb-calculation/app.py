@@ -24,7 +24,7 @@ def img_to_base64(path):
         return base64.b64encode(path.read_bytes()).decode()
     return ""
 
-logo_b64 = img_to_base64(ASSETS_DIR / "logo.png")
+logo_b64 = img_to_base64(ASSETS_DIR / "logo.jpg")
 bg_b64 = img_to_base64(ASSETS_DIR / "glacier_background.png")
 
 st.markdown(
