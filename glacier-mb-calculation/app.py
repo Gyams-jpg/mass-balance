@@ -13,7 +13,7 @@ from pathlib import Path
 
 import streamlit as st
 
-st.set_page_config(page_title="Thana Notebook Streamlit Wrapper", layout="wide")
+st.set_page_config(page_title="Glacier Mass Balance Calculation", layout="wide")
 
 BASE_DIR = Path(__file__).parent
 ASSETS_DIR = BASE_DIR / "assets"
@@ -97,14 +97,14 @@ banner_html = textwrap.dedent(f"""
     </div>
     <div class="hero-main">
         <div class="hero-card">
-            <h1>Thana Glacier Mass Balance Calculation</h1>
-            <p>Cryosphere Services Division - Thana notebook workflow.</p>
+            <h1>Glacier Mass Balance Calculation</h1>
+            <p>Cryosphere Services Division - Glacier mass balance notebook workflow.</p>
         </div>
     </div>
 </div>
 
 <div class="hero-note">
-    This app follows the uploaded Thana notebook workflow:
+    This app is script based glacier mass balance workflow:
     IDW interpolation → DEM bias correction → glacier-clipped hypsometry
     → nearest-point differencing → optional snow correction
     → SMB and uncertainty summary.
