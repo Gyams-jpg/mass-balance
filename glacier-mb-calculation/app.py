@@ -27,7 +27,8 @@ def image_to_data_uri(path):
     data = base64.b64encode(path.read_bytes()).decode()
     return f"data:image/{mime};base64,{data}"
 
-bg_b64 = image_to_data_uri(ASSETS_DIR / "glacier_background.png")
+top_banner_uri = image_to_data_uri(ASSETS_DIR / "logo.jpg")
+bg_uri = image_to_data_uri(ASSETS_DIR / "glacier_background.png")
 
 st.markdown(
     textwrap.dedent(f"""
@@ -37,63 +38,49 @@ st.markdown(
         overflow: hidden;
         margin-bottom: 1rem;
         border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.18);
     }}
-    .hero-top {{
-        background: white;
-        padding: 18px 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
+    .hero-top-banner {{
+        background: #ffffff;
     }}
-    .hero-top img {{
-        height: 88px;
-        object-fit: contain;
-    }}
-    .hero-org {{
-        flex: 1;
-        text-align: center;
-        color: black;
-    }}
-    .hero-org h2 {{
-        margin: 0;
-        font-size: 2rem;
-        font-weight: 700;
-    }}
-    .hero-org p {{
-        margin: 6px 0 0 0;
-        font-size: 1.05rem;
+    .hero-top-banner img {{
+        display: block;
+        width: 100%;
+        height: auto;
     }}
     .hero-main {{
-        min-height: 430px;
+        min-height: 470px;
         background-image:
-            linear-gradient(rgba(8,20,45,0.45), rgba(8,20,45,0.70)),
-            url('{bg_b64}');
+            linear-gradient(rgba(8,20,45,0.20), rgba(8,20,45,0.62)),
+            url('{bg_uri}');
         background-size: cover;
         background-position: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 40px;
+        padding: 42px;
     }}
     .hero-card {{
-        width: min(1100px, 88%);
-        background: rgba(20,30,45,0.35);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 26px;
-        padding: 48px 36px;
+        width: min(1260px, 86%);
+        background: rgba(20,30,45,0.34);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 30px;
+        padding: 52px 40px;
         text-align: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.18);
     }}
     .hero-card h1 {{
         margin: 0;
-        font-size: 3rem;
+        font-size: 4rem;
         color: white;
         font-weight: 800;
     }}
     .hero-card p {{
-        margin-top: 18px;
-        font-size: 1.2rem;
-        color: rgba(255,255,255,0.92);
+        margin-top: 22px;
+        font-size: 1.3rem;
+        color: rgba(255,255,255,0.94);
     }}
     .hero-note {{
         margin-top: 16px;
@@ -106,13 +93,8 @@ st.markdown(
     </style>
 
     <div class="hero-wrap">
-        <div class="hero-top">
-            
-            <div class="hero-org">
-                <h2>National Center for Hydrology and Meteorology</h2>
-                <p>Royal Government of Bhutan</p>
-            </div>
-            
+        <div class="hero-top-banner">
+            <img src="{top_banner_uri}">
         </div>
 
         <div class="hero-main">
