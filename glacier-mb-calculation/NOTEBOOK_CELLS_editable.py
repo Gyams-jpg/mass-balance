@@ -1217,6 +1217,7 @@ plt.show()
 # --------------------------------------------------------------------
 # 1. Get glacier boundary segments
 # --------------------------------------------------------------------
+
 from shapely.geometry import LineString, MultiLineString
 def get_boundary_segments(glacier_shp_path):
     """
