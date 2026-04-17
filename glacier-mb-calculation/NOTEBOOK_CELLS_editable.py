@@ -1128,12 +1128,12 @@ if (
     snd1 is not None and os.path.exists(snd1) and
     snd2 is not None and os.path.exists(snd2)
 ):
-    bin_stats['seasonal_MB'] = (
+    bin_stats['Annual_MB'] = (
         880 * bin_stats['diff_pred']
         + bin_stats['diff_snow_depth_2025'] * (400 - 880)
     )
 else:
-    bin_stats['seasonal_MB_no_snow'] = (880 * bin_stats['diff_pred'])
+    bin_stats['Annual_MB_no_snow'] = (880 * bin_stats['diff_pred'])
 
 # %% [cell 45]
 bin_stats
@@ -1141,10 +1141,10 @@ bin_stats
 # %% [cell 46]
 
 if snd1 is not None and os.path.exists(snd1):
-    smb = np.sum(bin_stats['seasonal_MB']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+    smb = np.sum(bin_stats['Annual_MB']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
     print(smb)
 else:
-    smb = np.sum(bin_stats['seasonal_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+    smb = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
     print(f"Mass balance without the snow is:'{smb}'")
 
 # %% [cell 47]
@@ -1179,18 +1179,18 @@ plt.show()
 bin_stats['diff_pred2'] = theil_sen_agg.predict(x_agg)
 
 if snd1 is not None and os.path.exists(snd1):
-    bin_stats['seasonal_MB2'] = (880 * bin_stats['diff_pred2']+ bin_stats['diff_snow_depth_2025'] * (400-880))
+    bin_stats['Annual_MB_Aggregated'] = (880 * bin_stats['diff_pred2']+ bin_stats['diff_snow_depth_2025'] * (400-880))
 else:
-    bin_stats['seasonal_MB2'] = (880 * bin_stats['diff_pred2'])
+    bin_stats['Annual_MB_Aggregated'] = (880 * bin_stats['diff_pred2'])
     
 bin_stats
 
 # %% [cell 49]
-smb2 = np.sum(bin_stats['seasonal_MB2']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+smb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
 print(smb2)
 
 # %% [cell 50]
-amb_agg_data = np.sum(bin_stats['seasonal_MB2']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+amb_agg_data = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
 amb_agg_data
 np.sum(bin_stats['area'])/1000000
 
