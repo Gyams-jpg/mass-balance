@@ -264,37 +264,43 @@ def main():
         import matplotlib.pyplot as plt  # noqa
 
         for idx, code in enumerate(NOTEBOOK_CELLS):
-            status.write(f"Running cell {idx + 1} of {len(NOTEBOOK_CELLS)}")
-            stdout_buf = io.StringIO()
-            prev_figs = set(plt.get_fignums())
-            try:
-                with contextlib.redirect_stdout(stdout_buf):
-                    exec(code, ns)
-            except Exception as e:
-                st.error(f"Cell {idx + 1} failed.")
-                st.code(code, language="python")
-                st.exception(e)
-                st.stop()
+    status.write(f"Running cell {idx + 1} of {len(NOTEBOOK_CELLS)}")
+    stdout_buf = io.StringIO()
+    prev_figs = set(plt.get_fignums())
+    try:
+        with contextlib.redirect_stdout(stdout_buf):
+            exec(code, ns)
 
-            out = stdout_buf.getvalue().strip()
-            with log_box:
-                if out:
-                    st.text(out)
+    except ValueError as e:
+        st.error(str(e))
+        st.code(code, language="python")
+        st.stop()
 
-            new_figs = [n for n in plt.get_fignums() if n not in prev_figs]
-            for fig_num in new_figs:
-                fig = plt.figure(fig_num)
-                st.pyplot(fig, clear_figure=False)
-                plt.close(fig)
+    except Exception as e:
+        st.error(f"Cell {idx + 1} failed.")
+        st.code(code, language="python")
+        st.exception(e)
+        st.stop()
 
-            progress.progress((idx + 1) / len(NOTEBOOK_CELLS))
+    out = stdout_buf.getvalue().strip()
+    with log_box:
+        if out:
+            st.text(out)
 
-        status.success("Notebook workflow completed.")
+    new_figs = [n for n in plt.get_fignums() if n not in prev_figs]
+    for fig_num in new_figs:
+        fig = plt.figure(fig_num)
+        st.pyplot(fig, clear_figure=False)
+        plt.close(fig)
 
-        render_namespace_outputs(ns)
+    progress.progress((idx + 1) / len(NOTEBOOK_CELLS))
 
-        st.subheader("Generated files")
-        out_files = find_output_files(output_dir)
+status.success("Notebook workflow completed.")
+
+render_namespace_outputs(ns)
+
+st.subheader("Generated files")
+out_files = find_output_files(output_dir)
         if not out_files:
             st.write("No output files detected.")
         else:
