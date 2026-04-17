@@ -58,7 +58,7 @@ def validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg):
         errors.append(f"Selected CRS is EPSG:{user_epsg_int}, but boundary CRS is EPSG:{boundary_epsg}.")
 
     if errors:
-        raise ValueError("CRS validation failed:\n- " + "\n- ".join(errors))
+        raise ValueError("CRS validation failed: " + " | ".join(errors))
 
     return f"EPSG:{user_epsg_int}"
 # %% [cell 2]
