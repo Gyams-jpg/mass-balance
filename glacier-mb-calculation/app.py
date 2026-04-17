@@ -282,8 +282,8 @@ def main():
                 "and matching projected CRS units for dGPS coordinates."
             )
 
-        dgps_2025 = st.file_uploader("2025 dGPS CSV (raw input for csv_path_1)", type=["csv"])
-        dgps_2024 = st.file_uploader("2024 dGPS CSV (raw input for csv_path_2)", type=["csv"])
+        dgps_2025 = st.file_uploader("Current year dGPS CSV (raw input for csv_path)", type=["csv"])
+        dgps_2024 = st.file_uploader("Previous year dGPS CSV (raw input for csv_path)", type=["csv"])
         raster_tif = st.file_uploader("DEM raster (.tif)", type=["tif", "tiff"])
         glacier_zip = st.file_uploader("Glacier shapefile ZIP (.zip)", type=["zip"])
         snow_2024 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
@@ -309,9 +309,9 @@ def main():
 
     missing = []
     if dgps_2025 is None:
-        missing.append("2025 dGPS CSV")
+        missing.append("Current dGPS CSV")
     if dgps_2024 is None:
-        missing.append("2024 dGPS CSV")
+        missing.append("Previous dGPS CSV")
     if raster_tif is None:
         missing.append("DEM raster")
     if glacier_zip is None:
