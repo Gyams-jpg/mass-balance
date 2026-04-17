@@ -12,7 +12,55 @@ import rasterio
 from rasterio.mask import mask
 from sklearn.linear_model import TheilSenRegressor
 from shapely.geometry import Point, LineString, MultiLineString
+def normalize_crs_to_epsg(crs_obj):
+    if crs_obj is None:
+        return None
+    try:
+        return crs_obj.to_epsg()
+    except Exception:
+        return None
 
+
+def validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg):
+    glacier_gdf = gpd.read_file(glacier_shp_path)
+
+    if glacier_gdf.crs is None:
+        raise ValueError("Glacier boundary file has no CRS defined.")
+
+    with rasterio.open(raster_file) as src:
+        dem_crs = src.crs
+        if dem_crs is None:
+            raise ValueError("DEM raster has no CRS defined.")
+
+    boundary_epsg = normalize_crs_to_epsg(glacier_gdf.crs)
+    dem_epsg = normalize_crs_to_epsg(dem_crs)
+
+    if boundary_epsg is None:
+        raise ValueError(f"Could not determine EPSG for glacier boundary CRS: {glacier_gdf.crs}")
+
+    if dem_epsg is None:
+        raise ValueError(f"Could not determine EPSG for DEM CRS: {dem_crs}")
+
+    try:
+        user_epsg_int = int(str(user_epsg).replace("EPSG:", "").strip())
+    except Exception:
+        raise ValueError(f"Invalid selected CRS: {user_epsg}")
+
+    errors = []
+
+    if boundary_epsg != dem_epsg:
+        errors.append(f"Boundary CRS is EPSG:{boundary_epsg}, but DEM CRS is EPSG:{dem_epsg}.")
+
+    if user_epsg_int != dem_epsg:
+        errors.append(f"Selected CRS is EPSG:{user_epsg_int}, but DEM CRS is EPSG:{dem_epsg}.")
+
+    if user_epsg_int != boundary_epsg:
+        errors.append(f"Selected CRS is EPSG:{user_epsg_int}, but boundary CRS is EPSG:{boundary_epsg}.")
+
+    if errors:
+        raise ValueError("CRS validation failed:\n- " + "\n- ".join(errors))
+
+    return f"EPSG:{user_epsg_int}"
 # %% [cell 2]
 import pandas as pd
 import numpy as np
@@ -310,10 +358,10 @@ gdf2.head(3)
 gdf1['geometry'] = gdf1.apply(lambda row: Point(row.iloc[2], row.iloc[1]), axis=1)
 gdf2['geometry'] = gdf2.apply(lambda row: Point(row.iloc[2], row.iloc[1]), axis=1)
 
-crs_proj = f"EPSG:{user_epsg}"
+crs_proj = validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg)
+
 geo_gdf1 = gpd.GeoDataFrame(gdf1, geometry='geometry', crs=crs_proj) # current year
 geo_gdf2 = gpd.GeoDataFrame(gdf2, geometry='geometry', crs=crs_proj) # previous year
-
 # %% [cell 9]
 geo_gdf1
 
@@ -372,9 +420,31 @@ plt.savefig(os.path.join(output_dir, "dGPS_with_boundary.png"), dpi=300)
 plt.show()
 
 # %% [cell 12]
-coordinates = [(point.x, point.y) for point in geo_gdf1.geometry]
-with rasterio.open(raster_file ) as src:
+with rasterio.open(raster_file) as src:
+    if geo_gdf1.crs != src.crs:
+        raise ValueError(
+            f"geo_gdf1 CRS {geo_gdf1.crs} does not match raster CRS {src.crs}. "
+            "Stopping to avoid wrong raster sampling."
+        )
+
+    coordinates = [(point.x, point.y) for point in geo_gdf1.geometry]
     raster_values = list(src.sample(coordinates))
+    geo_gdf1['raster_raw_value'] = [val[0] for val in raster_values]
+
+    geo_gdf1['dgps_dem_diff'] = np.abs(geo_gdf1['raster_raw_value'] - geo_gdf1['Elevation'])
+    dgps_dem_diff_avg = np.mean(geo_gdf1['dgps_dem_diff'])
+
+    from rasterio.plot import show
+    fig, ax = plt.subplots()
+    extent = [src.bounds[0], src.bounds[2], src.bounds[1], src.bounds[3]]
+    ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
+    geo_gdf1.plot(ax=ax)
+    ax.set_title('Raw Dem')
+    profile = src.profile
+    data = src.read(1)
+
+    corrected_dem_arr = data - dgps_dem_diff_avg
+    profile.update(dtype='float32')
     geo_gdf1['raster_raw_value'] = [val[0] for val in raster_values]
 
     geo_gdf1['dgps_dem_diff'] = np.abs(geo_gdf1['raster_raw_value']-geo_gdf1['Elevation'])
@@ -398,17 +468,22 @@ with rasterio.open(corrected_dem, "w", **profile) as dst:
     dst.write(corrected_dem_arr.astype('float32'), 1)
 
 with rasterio.open(corrected_dem) as src:
+    if geo_gdf1.crs != src.crs:
+        raise ValueError(
+            f"geo_gdf1 CRS {geo_gdf1.crs} does not match corrected DEM CRS {src.crs}. "
+            "Stopping to avoid wrong raster sampling."
+        )
+
+    coordinates = [(point.x, point.y) for point in geo_gdf1.geometry]
     raster_values = list(src.sample(coordinates))
     geo_gdf1['raster_corr_value'] = [val[0] for val in raster_values]
 
     from rasterio.plot import show
     fig, ax = plt.subplots()
-    # transform rasterio plot to real world coords
     extent = [src.bounds[0], src.bounds[2], src.bounds[1], src.bounds[3]]
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     ax.set_title('Corr Dem')
     geo_gdf1.plot(ax=ax)
-
 # %% [cell 13]
 geo_gdf2.head(3)
 
@@ -521,9 +596,31 @@ print('Mid Bins', mid_bins)
 print(area_per_class)
 
 # %% [cell 17]
-coordinates = [(point.x, point.y) for point in geo_gdf2.geometry]
-with rasterio.open(raster_file ) as src:
+with rasterio.open(raster_file) as src:
+    if geo_gdf2.crs != src.crs:
+        raise ValueError(
+            f"geo_gdf2 CRS {geo_gdf2.crs} does not match raster CRS {src.crs}. "
+            "Stopping to avoid wrong raster sampling."
+        )
+
+    coordinates = [(point.x, point.y) for point in geo_gdf2.geometry]
     raster_values = list(src.sample(coordinates))
+    geo_gdf2['raster_raw_value'] = [val[0] for val in raster_values]
+
+    geo_gdf2['dgps_dem_diff'] = np.abs(geo_gdf2['raster_raw_value'] - geo_gdf2['Elevation'])
+    dgps_dem_diff_avg1 = np.mean(geo_gdf2['dgps_dem_diff'])
+
+    from rasterio.plot import show
+    fig, ax = plt.subplots()
+    extent = [src.bounds[0], src.bounds[2], src.bounds[1], src.bounds[3]]
+    ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
+    geo_gdf2.plot(ax=ax)
+    ax.set_title('Raw Dem')
+    profile = src.profile
+    data = src.read(1)
+
+    corrected_dem_arr1 = data - dgps_dem_diff_avg1
+    profile.update(dtype='float32')
     geo_gdf2['raster_raw_value'] = [val[0] for val in raster_values]
 
     geo_gdf2['dgps_dem_diff'] = np.abs(geo_gdf2['raster_raw_value']-geo_gdf2['Elevation'])
@@ -547,12 +644,18 @@ with rasterio.open(corrected_dem1, "w", **profile) as dst:
     dst.write(corrected_dem_arr1.astype('float32'), 1)
 
 with rasterio.open(corrected_dem1) as src:
+    if geo_gdf2.crs != src.crs:
+        raise ValueError(
+            f"geo_gdf2 CRS {geo_gdf2.crs} does not match corrected DEM CRS {src.crs}. "
+            "Stopping to avoid wrong raster sampling."
+        )
+
+    coordinates = [(point.x, point.y) for point in geo_gdf2.geometry]
     raster_values = list(src.sample(coordinates))
     geo_gdf2['raster_corr_value'] = [val[0] for val in raster_values]
 
     from rasterio.plot import show
     fig, ax = plt.subplots()
-    # transform rasterio plot to real world coords
     extent = [src.bounds[0], src.bounds[2], src.bounds[1], src.bounds[3]]
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     ax.set_title('Corr Dem')
