@@ -1141,11 +1141,11 @@ bin_stats
 # %% [cell 46]
 
 if snd1 is not None and os.path.exists(snd1):
-    smb = np.sum(bin_stats['Annual_MB']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-    print(smb)
+    amb = np.sum(bin_stats['Annual_MB']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+    print(amb)
 else:
-    smb = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-    print(f"Mass balance without the snow is:'{smb}'")
+    amb = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+    print(f"Mass balance without the snow is:'{amb}'")
 
 # %% [cell 47]
 x_agg = bin_stats['mean_bin'].astype(float).values.reshape(-1, 1)
@@ -1186,15 +1186,15 @@ else:
 bin_stats
 
 # %% [cell 49]
-smb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-print(smb2)
+amb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+print(amb2)
 
 # %% [cell 50]
 amb_agg_data = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
 amb_agg_data
 np.sum(bin_stats['area'])/1000000
 
-amb_array = [smb, amb_agg_data]
+amb_array = [amb, amb_agg_data]
 print(amb_array)
 
 labels = ['Non-aggregated data', 'Aggregated data']
@@ -1402,9 +1402,9 @@ bin_stats
 # %% [cell 55]
 # %% [cell 55]
 if snd1 is not None and os.path.exists(snd1) and snd2 is not None and os.path.exists(snd2):
-    mb_col = 'seasonal_MB'
+    mb_col = 'Annual_MB'
 else:
-    mb_col = 'seasonal_MB_no_snow'
+    mb_col = 'Annual_MB_no_snow'
 
 bin_stats['Area_Average_MB'] = (
     bin_stats[mb_col] * bin_stats['area_average']
