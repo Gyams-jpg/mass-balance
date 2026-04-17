@@ -152,7 +152,7 @@ with st.expander("Show Scientific Equations Used", expanded=False):
         "$\mathrm{d} b_z$ is uncertainty in mass balance for each elevation band, "
         "$\mathrm{d} A_z$ is uncertainty in the delineated area of each band, "
         "$|b_z|$ is the absolute value of band mass balance, "
-        "$\mathrm{d} b_{\rho}$ is uncertainty due to density assumptions, "
+        "d*bρ* is uncertainty due to density assumptions, "
         "and $A_T$ is the total glacier area."
     )
 
