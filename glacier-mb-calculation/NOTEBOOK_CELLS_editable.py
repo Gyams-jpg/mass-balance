@@ -1147,7 +1147,7 @@ if snd1 is not None and os.path.exists(snd1):
     print(amb)
 else:
     amb = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-    print(f"Mass balance without the snow is:'{amb}'")
+    print(f"Mass balance(no snow) is:'{amb}'")
 
 # %% [cell 47]
 x_agg = bin_stats['mean_bin'].astype(float).values.reshape(-1, 1)
