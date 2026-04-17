@@ -182,7 +182,7 @@ def main():
         raster_tif = st.file_uploader("DEM raster (.tif)", type=["tif", "tiff"])
         glacier_zip = st.file_uploader("Glacier shapefile ZIP (.zip)", type=["zip"])
         snow_2024 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
-        snow_2025 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
+        snow_2025 = st.file_uploader("Current year Snow depth CSV  (optional)", type=["csv"])
 
         st.header("Parameters from notebook")
         cell_size = st.number_input("cell_size", value=1.0, step=0.1)
