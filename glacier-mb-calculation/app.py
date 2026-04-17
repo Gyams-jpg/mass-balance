@@ -149,8 +149,8 @@ with st.expander("Show Scientific Equations Used", expanded=False):
 )
     st.markdown(
         "Where $\sigma$ is the uncertainty of glacier-wide annual mass balance, "
-        "d $b_z$ is uncertainty in mass balance for each elevation band, "
-        "d $A_z$ is uncertainty in the delineated area of each band, "
+        "d$b_z$ is uncertainty in mass balance for each elevation band, "
+        "d$A_z$ is uncertainty in the delineated area of each band, "
         "$|*b_z*|$ is the absolute value of band mass balance, "
         "d*bρ* is uncertainty due to density assumptions, "
         "and $A_T$ is the total glacier area."
