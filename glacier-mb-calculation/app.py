@@ -181,8 +181,8 @@ def main():
         dgps_2024 = st.file_uploader("2024 dGPS CSV (raw input for csv_path_2)", type=["csv"])
         raster_tif = st.file_uploader("DEM raster (.tif)", type=["tif", "tiff"])
         glacier_zip = st.file_uploader("Glacier shapefile ZIP (.zip)", type=["zip"])
-        snow_2024 = st.file_uploader("Snow depth CSV 1 (optional)", type=["csv"])
-        snow_2025 = st.file_uploader("Snow depth CSV 2 (optional)", type=["csv"])
+        snow_2024 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
+        snow_2025 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
 
         st.header("Parameters from notebook")
         cell_size = st.number_input("cell_size", value=1.0, step=0.1)
