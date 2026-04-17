@@ -104,7 +104,7 @@ banner_html = textwrap.dedent(f"""
 </div>
 
 <div class="hero-note">
-    This app is script based glacier mass balance workflow:
+    This web interface is script based glacier mass balance workflow:
     IDW interpolation → DEM bias correction → glacier-clipped hypsometry
     → nearest-point differencing → optional snow correction
     → amb and uncertainty summary.
