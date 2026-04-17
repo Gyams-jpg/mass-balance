@@ -254,6 +254,7 @@ def main():
             "corrected_dem_name_old": corrected_dem_name_old,
             "output_clipped_dem_name_old": output_clipped_dem_name_old,
             "output_dir": str(output_dir),
+            "user_epsg": user_epsg,
         }
 
         progress = st.progress(0.0)
