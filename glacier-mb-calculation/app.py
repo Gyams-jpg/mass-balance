@@ -223,59 +223,62 @@ def render_namespace_outputs(ns):
 
 def main():
     import streamlit as st
+
     user_epsg = st.sidebar.text_input("Projected CRS (EPSG)", value="32646")
+
     with st.sidebar:
         st.header("Inputs")
+
         with st.expander("Show Sample CSV Format", expanded=False):
 
-    st.markdown("### Sample dGPS CSV")
-    st.markdown(
-        "Expected columns (recommended order): "
-        "**Point_id, Elevation, Northing, Easting**"
-    )
+            st.markdown("### Sample dGPS CSV")
+            st.markdown(
+                "Expected columns (recommended order): "
+                "**Point_id, Elevation, Northing, Easting**"
+            )
 
-    dgps_sample = pd.DataFrame({
-        "Point_id": [1, 2, 3],
-        "Elevation": [5123.45, 5124.10, 5122.88],
-        "Northing": [3098765.12, 3098766.55, 3098768.20],
-        "Easting": [456789.33, 456790.12, 456792.01]
-    })
+            dgps_sample = pd.DataFrame({
+                "Point_id": [1, 2, 3],
+                "Elevation": [5123.45, 5124.10, 5122.88],
+                "Northing": [3098765.12, 3098766.55, 3098768.20],
+                "Easting": [456789.33, 456790.12, 456792.01]
+            })
 
-    st.dataframe(dgps_sample, use_container_width=True)
+            st.dataframe(dgps_sample, use_container_width=True)
 
-    st.download_button(
-        "Download dGPS Sample CSV",
-        dgps_sample.to_csv(index=False),
-        file_name="dgps_sample.csv",
-        mime="text/csv"
-    )
+            st.download_button(
+                "Download dGPS Sample CSV",
+                dgps_sample.to_csv(index=False),
+                file_name="dgps_sample.csv",
+                mime="text/csv"
+            )
 
-    st.markdown("---")
+            st.markdown("---")
 
-    st.markdown("### Sample Snow Depth CSV")
-    st.markdown(
-        "Expected columns: **ID, Elevation, Snow_Depth**"
-    )
+            st.markdown("### Sample Snow Depth CSV")
+            st.markdown(
+                "Expected columns: **ID, Elevation, Snow_Depth**"
+            )
 
-    snow_sample = pd.DataFrame({
-        "ID": ["Stake 1", "Stake 2", "Stake 3"],
-        "Elevation": [5000, 5050, 5100],
-        "Snow_Depth": [0.25, 0.18, 0.10]
-    })
+            snow_sample = pd.DataFrame({
+                "ID": ["Stake 1", "Stake 2", "Stake 3"],
+                "Elevation": [5000, 5050, 5100],
+                "Snow_Depth": [0.25, 0.18, 0.10]
+            })
 
-    st.dataframe(snow_sample, use_container_width=True)
+            st.dataframe(snow_sample, use_container_width=True)
 
-    st.download_button(
-        "Download Snow Sample CSV",
-        snow_sample.to_csv(index=False),
-        file_name="snow_sample.csv",
-        mime="text/csv"
-    )
+            st.download_button(
+                "Download Snow Sample CSV",
+                snow_sample.to_csv(index=False),
+                file_name="snow_sample.csv",
+                mime="text/csv"
+            )
 
-    st.info(
-        "Ensure numeric values only where required, correct column names, "
-        "and matching projected CRS units for dGPS coordinates."
-    )
+            st.info(
+                "Ensure numeric values only where required, correct column names, "
+                "and matching projected CRS units for dGPS coordinates."
+            )
 
         dgps_2025 = st.file_uploader("2025 dGPS CSV (raw input for csv_path_1)", type=["csv"])
         dgps_2024 = st.file_uploader("2024 dGPS CSV (raw input for csv_path_2)", type=["csv"])
