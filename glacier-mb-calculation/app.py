@@ -113,7 +113,7 @@ banner_html = textwrap.dedent(f"""
 
 st.markdown(banner_html, unsafe_allow_html=True)
 with st.expander("Show Scientific Equations Used", expanded=False):
-    st.markdown("### Geodetic Mass Balance")
+st.markdown("### Geodetic Mass Balance")
 st.latex(r"b_g=\frac{\Delta h_g \rho_i + (s_{t2}-s_{t1})(\rho_s-\rho_i)}{t_2-t_1}")
 st.markdown(
     "Where $b_g$ is the annual geodetic mass balance, "
