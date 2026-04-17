@@ -310,8 +310,9 @@ gdf2.head(3)
 gdf1['geometry'] = gdf1.apply(lambda row: Point(row.iloc[2], row.iloc[1]), axis=1)
 gdf2['geometry'] = gdf2.apply(lambda row: Point(row.iloc[2], row.iloc[1]), axis=1)
 
-geo_gdf1 = gpd.GeoDataFrame(gdf1, geometry='geometry', crs="EPSG:32646") # 2024
-geo_gdf2 = gpd.GeoDataFrame(gdf2, geometry='geometry', crs="EPSG:32646") # 2023
+crs_proj = f"EPSG:{user_epsg}"
+geo_gdf1 = gpd.GeoDataFrame(gdf1, geometry='geometry', crs=crs_proj) # current year
+geo_gdf2 = gpd.GeoDataFrame(gdf2, geometry='geometry', crs=crs_proj) # previous year
 
 # %% [cell 9]
 geo_gdf1
