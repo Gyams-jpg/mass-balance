@@ -196,9 +196,9 @@ x_col = "Longitude"      # UTM Easting in your file
 y_col = "Latitude"       # UTM Northing in your file
 z_col = "Elevation"      # Elevation
 
-cell_size = 1.0          # 1 m grid
-search_radius = 0.7      # in metres (UTM)
-power = 2                # IDW power
+cell_size = float(cell_size) if 'cell_size' in globals() else 1.0
+search_radius = float(search_radius) if 'search_radius' in globals() else 0.7
+power = float(power) if 'power' in globals() else 2       # IDW power
 
 # -----------------------------
 # 2. Read CSV
