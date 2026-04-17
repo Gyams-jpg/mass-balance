@@ -536,16 +536,13 @@ def classify_and_calculate_area(path, elevation_interval=50):
     max_elevation = int(np.ceil(dem_data.max()))
     
     bins = np.arange(min_elevation, max_elevation + elevation_interval, elevation_interval)
-    print(bins)
     elevation_classes = np.digitize(dem_data, bins)
-    print(elevation_classes)
 
     # Calculate area for each elevation class
     area_per_class = []
     for i in range(1, len(bins)):
         area = (elevation_classes == i).sum() * pixel_area
         area_per_class.append(area)
-    print(area_per_class)
 
     return bins, area_per_class
 
@@ -571,11 +568,8 @@ def plot_elevation_vs_area(bins, area_per_class):
     return mid_bins
 
 clipped_dem = clip_dem(corrected_dem, glacier_shp_path, output_clipped_dem)
-print(corrected_dem, output_clipped_dem)
 elev_bins, area_per_class = classify_and_calculate_area(output_clipped_dem, elevation_interval=50)
 mid_bins = plot_elevation_vs_area(elev_bins, area_per_class)
-print('Mid Bins', mid_bins)
-print(area_per_class)
 
 # %% [cell 17]
 with rasterio.open(raster_file) as src:
@@ -680,16 +674,13 @@ def classify_and_calculate_area(path, elevation_interval=50):
     max_elevation = elev_bins[-1]
     
     bins = np.arange(min_elevation, max_elevation + elevation_interval, elevation_interval)
-    print(bins)
     elevation_classes = np.digitize(dem_data, bins)
-    print(elevation_classes)
 
     # Calculate area for each elevation class
     area_per_class1 = []
     for i in range(1, len(bins)):
         area1 = (elevation_classes == i).sum() * pixel_area
         area_per_class1.append(area1)
-    print(area_per_class1)
 
     return bins, area_per_class1
 
@@ -715,11 +706,8 @@ def plot_elevation_vs_area(bins, area_per_class1):
     return mid_bins
 
 clipped_dem1 = clip_dem(corrected_dem1, glacier_shp_path, output_clipped_dem1)
-print(corrected_dem1, output_clipped_dem1)
 elev_bins, area_per_class1 = classify_and_calculate_area(output_clipped_dem1, elevation_interval=50)
 mid_bins = plot_elevation_vs_area(elev_bins, area_per_class1)
-print('Mid Bins', mid_bins)
-print(area_per_class1)
 
 # %% [cell 20]
 def plot_hypsometry_comparison(bins_a, area_a, bins_b, area_b,
@@ -870,7 +858,6 @@ plt.show()
 merged_gdf['elev_diff'] = merged_gdf['Elevation_left'] - merged_gdf['Elevation_right'] # e.g., 5m (2023)  2m in (2024): 2m - 5m
 gdf_threshold = merged_gdf[(merged_gdf['nearest_distance'] <= distance_threshold) & (merged_gdf['elev_diff'] != 0)]
 gdf_threshold.head(3)
-print(gdf_threshold.shape)
 
 # %% [cell 27]
 x_elev = gdf_threshold['Elevation_left'].astype(float).values.reshape(-1, 1)
@@ -1041,8 +1028,6 @@ bin_stats['area_average'] = (bin_stats['area']+bin_stats['area1']) / 2
 bin_stats['diff_pred'] = bin_stats['final_mean']
 
 # %% [cell 36]
-print(area_per_class)
-print(area_per_class1)
 
 # %% [cell 37]
 bin_stats
@@ -1121,8 +1106,7 @@ if snd1 is not None and os.path.exists(snd1):
     mid_bin_snd1 = lin_reg.predict(mid_bin1)
 
     # Use print() to display these values in the console
-    print(mid_bin1)
-    print(mid_bin_snd1)
+  
     # --- Prepare data ---
 
 else:
@@ -1171,8 +1155,7 @@ if snd2 is not None and os.path.exists(snd2):
     mid_bin_snd2 = np.where(mid_bin_snd2 > 0, mid_bin_snd2, 0)
 
 
-    print(mid_bin2)
-    print(mid_bin_snd2)
+    
 else:
    print("no such files")
 
