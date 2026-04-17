@@ -321,8 +321,8 @@ glacier_gdf_01 = gpd.read_file(glacier_shp_path)
 fig, ax = plt.subplots(figsize=(10, 12))  # Adjust figure size for higher resolution
 glacier_gdf_01.plot(ax=ax,facecolor='none',edgecolor='black',linewidth=1.5,label="Glacier boundary")
 
-geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")  # Customize style for geo_gdf1
 geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label= "2024 dGPS survey track")  # Customize style for geo_gdf2
+geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")  # Customize style for geo_gdf1
 
 # Add labels and legend
 ax.set_xlabel("Easting (m)", fontsize=12)
@@ -346,8 +346,9 @@ fig, ax = plt.subplots(figsize=(8, 12))  # Adjust figure size
 glacier_gdf_01.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=1.5)
 
 # Plot dGPS tracks
-geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")
 geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label="2024 dGPS survey track")
+geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")
+
 
 # Create manual legend patch for glacier boundary
 boundary_patch = mpatches.Patch(facecolor='none', edgecolor='black', linewidth=1.5, label='Glacier boundary')
