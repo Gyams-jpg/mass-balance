@@ -120,7 +120,7 @@ with st.expander("Show Scientific Equations Used", expanded=False):
     st.markdown(
         "Where $b_g$ is the annual geodetic mass balance, "
         "$\Delta h_g$ is glacier surface elevation change (negative when the glacier surface lowers), "
-        "ρᵢ is ice density, ρₛ is snow density, and "
+        "*ρᵢ* is ice density, *ρₛ* is snow density, and "
         "$s_{t1}, s_{t2}$ are snow thicknesses at times $t_1$ and $t_2$. "
         "$t_2-t_1$ is the time interval between observations."
     )
@@ -139,12 +139,14 @@ with st.expander("Show Scientific Equations Used", expanded=False):
     st.markdown(
         "Where $b_d$ is the annual mass balance from stake measurements, "
         "$\Delta h_d$ is the change in stake height between $t_1$ and $t_2$, "
-        "ρᵢ is ice density, ρₛ is snow density, and "
+        "*ρᵢ* is ice density, *ρₛ* is snow density, and "
         "$s_{t1}, s_{t2}$ are snow thicknesses measured at the two observation times."
     )
 
     st.markdown("### Uncertainty Equation")
-    st.latex(r"\sigma=\frac{\sum A_z\, d b_z+\sum d A_z |b_z|+\sum A_z\, d b_{\rho}}{A_T}")
+    st.latex(
+    r"\sigma=\frac{\sum A_z\, \mathrm{d}b_z+\sum \mathrm{d}A_z |b_z|+\sum A_z\, \mathrm{d}b_{\rho}}{A_T}"
+)
     st.markdown(
         "Where $\sigma$ is the uncertainty of glacier-wide annual mass balance, "
         "$d b_z$ is uncertainty in mass balance for each elevation band, "
