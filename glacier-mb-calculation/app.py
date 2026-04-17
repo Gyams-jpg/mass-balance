@@ -522,51 +522,51 @@ def main():
             "user_epsg": user_epsg,
         }
 
-        progress = st.progress(0.0)
+                progress = st.progress(0.0)
         status = st.empty()
         log_box = st.expander("Execution log", expanded=True)
 
         import matplotlib.pyplot as plt  # noqa
 
-for idx, code in enumerate(NOTEBOOK_CELLS):
-    status.write(f"Running cell {idx + 1} of {len(NOTEBOOK_CELLS)}")
-    stdout_buf = io.StringIO()
-    prev_figs = set(plt.get_fignums())
+        for idx, code in enumerate(NOTEBOOK_CELLS):
+            status.write(f"Running cell {idx + 1} of {len(NOTEBOOK_CELLS)}")
+            stdout_buf = io.StringIO()
+            prev_figs = set(plt.get_fignums())
 
-    try:
-        with contextlib.redirect_stdout(stdout_buf):
-            exec(code, ns)
+            try:
+                with contextlib.redirect_stdout(stdout_buf):
+                    exec(code, ns)
 
-    except ValueError as e:
-        st.error(str(e))
-        st.code(code, language="python")
-        st.stop()
+            except ValueError as e:
+                st.error(str(e))
+                st.code(code, language="python")
+                st.stop()
 
-    except Exception as e:
-        st.error(f"Cell {idx + 1} failed.")
-        st.code(code, language="python")
-        st.exception(e)
-        st.stop()
+            except Exception as e:
+                st.error(f"Cell {idx + 1} failed.")
+                st.code(code, language="python")
+                st.exception(e)
+                st.stop()
 
-    out = stdout_buf.getvalue().strip()
-    with log_box:
-        if out:
-            st.text(out)
+            out = stdout_buf.getvalue().strip()
+            with log_box:
+                if out:
+                    st.text(out)
 
-    new_figs = [n for n in plt.get_fignums() if n not in prev_figs]
-    for fig_num in new_figs:
-        fig = plt.figure(fig_num)
-        st.pyplot(fig, clear_figure=False)
-        plt.close(fig)
+            new_figs = [n for n in plt.get_fignums() if n not in prev_figs]
+            for fig_num in new_figs:
+                fig = plt.figure(fig_num)
+                st.pyplot(fig, clear_figure=False)
+                plt.close(fig)
 
-    progress.progress((idx + 1) / len(NOTEBOOK_CELLS))
+            progress.progress((idx + 1) / len(NOTEBOOK_CELLS))
 
-status.success("Notebook workflow completed.")
+        status.success("Notebook workflow completed.")
 
-render_namespace_outputs(ns)
+        render_namespace_outputs(ns)
 
-st.subheader("Generated files")
-out_files = find_output_files(output_dir)
+        st.subheader("Generated files")
+        out_files = find_output_files(output_dir)
         if not out_files:
             st.write("No output files detected.")
         else:
