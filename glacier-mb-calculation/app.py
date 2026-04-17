@@ -114,21 +114,43 @@ banner_html = textwrap.dedent(f"""
 st.markdown(banner_html, unsafe_allow_html=True)
 with st.expander("Show Scientific Equations Used", expanded=False):
     st.markdown("### Geodetic Mass Balance")
-    st.latex(r"""b_g=\frac{\Delta h \rho_i + (S_{t2}-S_{t1})(\rho_s-\rho_i)}{t_2-t_1}""")
-    st.markdown("Where $b_g$ is annual geodetic mass balance, $\Delta h$ is elevation change, $\rho_i$ is ice density, $\rho_s$ is snow density, and $S_{t1}, S_{t2}$ are snow thicknesses at times $t_1$ and $t_2$.")
+st.latex(r"b_g=\frac{\Delta h_g \rho_i + (s_{t2}-s_{t1})(\rho_s-\rho_i)}{t_2-t_1}")
+st.markdown(
+    "Where $b_g$ is the annual geodetic mass balance, "
+    "$\Delta h_g$ is glacier surface elevation change (negative when the glacier surface lowers), "
+    "$\rho_i$ is ice density, $\rho_s$ is snow density, and "
+    "$s_{t1}, s_{t2}$ are snow thicknesses at times $t_1$ and $t_2$. "
+    "$t_2-t_1$ is the time interval between observations."
+)
 
-    st.markdown("### Area-Averaged Mass Balance")
-    st.latex(r"""\bar{b}_g=\frac{\sum A_z b_z}{A_T}""")
-    st.markdown("Where $A_z$ is the area of each elevation band, $b_z$ is band-wise mass balance, and $A_T$ is the total glacier area.")
+st.markdown("### Area-Averaged Geodetic Mass Balance")
+st.latex(r"\overline{b_g}=\frac{\sum_z A_z\, b_{gz}}{A_T}")
+st.markdown(
+    "Where $\overline{b_g}$ is the glacier-wide average annual mass balance, "
+    "$A_z$ is the area of each 50 m elevation band, "
+    "$b_{gz}$ is the average geodetic mass balance of elevation band $z$, "
+    "and $A_T$ is the total glacier area."
+)
 
-    st.markdown("### Direct / Stake-Based Mass Balance")
-    st.latex(r"""b_d=\frac{\Delta h_d \rho_i + (S_{t2}-S_{t1})(\rho_s-\rho_i)}{t_2-t_1}""")
-    st.markdown("Where $\Delta h_d$ is the change in stake height between $t_1$ and $t_2$.")
+st.markdown("### Direct / Stake-Based Mass Balance")
+st.latex(r"b_d=\frac{\Delta h_d \rho_i + (s_{t2}-s_{t1})(\rho_s-\rho_i)}{t_2-t_1}")
+st.markdown(
+    "Where $b_d$ is the annual mass balance from stake measurements, "
+    "$\Delta h_d$ is the change in stake height between $t_1$ and $t_2$, "
+    "$\rho_i$ is ice density, $\rho_s$ is snow density, and "
+    "$s_{t1}, s_{t2}$ are snow thicknesses measured at the two observation times."
+)
 
-    st.markdown("### Uncertainty Equation")
-    st.latex(r"""\sigma=\frac{\sum A_z \delta b_z + \sum |\delta A_z b_z| + \sum A_z \delta b_\rho}{A_T}""")
-    st.markdown("This combines uncertainty from mass balance by elevation band, glacier-boundary delineation, and density assumptions.")
-
+st.markdown("### Uncertainty Equation")
+st.latex(r"\sigma=\frac{\sum A_z\, d b_z+\sum d A_z |b_z|+\sum A_z\, d b_{\rho}}{A_T}")
+st.markdown(
+    "Where $\sigma$ is the uncertainty of glacier-wide annual mass balance, "
+    "$d b_z$ is uncertainty in mass balance for each elevation band, "
+    "$d A_z$ is uncertainty in the delineated area of each band, "
+    "$|b_z|$ is the absolute value of band mass balance, "
+    "$d b_{\rho}$ is uncertainty due to density assumptions, "
+    "and $A_T$ is the total glacier area."
+)
     st.markdown("### Constants Used in This Workflow")
     st.markdown("- Ice density: **880 ± 30 kg m⁻³**\n- Snow density: **400 ± 100 kg m⁻³**\n- Elevation band interval: **50 m**\n- Regression used: **Theil-Sen** for elevation-difference estimation and **linear regression** for snow-thickness estimation")
 
