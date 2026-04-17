@@ -263,10 +263,11 @@ def main():
 
         import matplotlib.pyplot as plt  # noqa
 
-        for idx, code in enumerate(NOTEBOOK_CELLS):
+for idx, code in enumerate(NOTEBOOK_CELLS):
     status.write(f"Running cell {idx + 1} of {len(NOTEBOOK_CELLS)}")
     stdout_buf = io.StringIO()
     prev_figs = set(plt.get_fignums())
+
     try:
         with contextlib.redirect_stdout(stdout_buf):
             exec(code, ns)
