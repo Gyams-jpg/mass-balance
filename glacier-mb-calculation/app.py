@@ -314,6 +314,7 @@ def main():
         search_radius = st.number_input("search_radius", value=0.7, step=0.1)
         power = st.number_input("power", value=2, step=1)
         distance_threshold = st.number_input("distance_threshold", value=3.0, step=0.5)
+        elevation_interval = st.number_input("elevation_interval", value=50, step=10)
 
         corrected_dem_name = st.text_input("corrected_dem_name", value="dem_corr1.tif")
         output_clipped_dem_name = st.text_input("output_clipped_dem_name", value="dem_sub_corr1.tif")
@@ -382,6 +383,7 @@ def main():
             "user_epsg": user_epsg,
             "t1":t1,
             "t2":t2,
+            "elevation_interval":elevation_interval,
         }
 
         progress = st.progress(0.0)
