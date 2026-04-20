@@ -1173,9 +1173,9 @@ if (
     snd1 is not None and os.path.exists(snd1) and
     snd2 is not None and os.path.exists(snd2)
 ):
-    bin_stats['snow_depth_2024'] = mid_bin_snd1
-    bin_stats['snow_depth_2025'] = mid_bin_snd2
-    bin_stats['diff_snow_depth_2025'] = mid_bin_snd2 - mid_bin_snd1
+    bin_stats[f'snow_depth_{t1}'] = mid_bin_snd1
+    bin_stats[f'snow_depth_{t2}'] = mid_bin_snd2
+    bin_stats[f'diff_snow_depth_{t2}'] = mid_bin_snd2 - mid_bin_snd1
 else:
     print("snow files not fully provided or missing")
 
@@ -1187,7 +1187,7 @@ if (
 ):
     bin_stats['Annual_MB'] = ((
         880 * bin_stats['diff_pred']
-        + bin_stats['diff_snow_depth_2025'] * (400 - 880))/(Time_period)
+        + bin_stats[f'diff_snow_depth_{t2}'] * (400 - 880))/(Time_period)
     )
 else:
     bin_stats['Annual_MB_no_snow'] = ((880 * bin_stats['diff_pred']))/(Time_period)
@@ -1236,7 +1236,7 @@ plt.show()
 bin_stats['diff_pred2'] = theil_sen_agg.predict(x_agg)
 
 if snd1 is not None and os.path.exists(snd1):
-    bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']+ bin_stats['diff_snow_depth_2025'] * (400-880)))/(Time_period)
+    bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']+ bin_stats[f'diff_snow_depth_{t2}'] * (400-880)))/(Time_period)
 else:
     bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']))/(Time_period)
     
