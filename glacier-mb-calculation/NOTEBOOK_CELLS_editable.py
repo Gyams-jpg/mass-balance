@@ -12,6 +12,11 @@ import rasterio
 from rasterio.mask import mask
 from sklearn.linear_model import TheilSenRegressor
 from shapely.geometry import Point, LineString, MultiLineString
+t1 = int(t1) if 't1' in globals() else 2024
+t2 = int(t2) if 't2' in globals() else 2025
+
+if t1 >= t2:
+    raise ValueError("t1 must be less than t2")
 def normalize_crs_to_epsg(crs_obj):
     if crs_obj is None:
         return None
