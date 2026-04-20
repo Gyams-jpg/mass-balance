@@ -360,6 +360,8 @@ def main():
             "output_clipped_dem_name_old": output_clipped_dem_name_old,
             "output_dir": str(output_dir),
             "user_epsg": user_epsg,
+            "t1":t1,
+            "t2":t2,
         }
 
         progress = st.progress(0.0)
