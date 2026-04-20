@@ -392,38 +392,7 @@ plt.tight_layout()
 plt.show()
 
 # %% [cell 11]
-import matplotlib.patches as mpatches
 
-glacier_gdf_01 = gpd.read_file(glacier_shp_path)
-fig, ax = plt.subplots(figsize=(8, 12))  # Adjust figure size
-
-# Plot glacier boundary (transparent fill)
-glacier_gdf_01.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=1.5)
-
-# Plot dGPS tracks
-geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label=f"{t1} dGPS survey track")
-geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label=f"{t2} dGPS survey track")
-
-
-# Create manual legend patch for glacier boundary
-boundary_patch = mpatches.Patch(facecolor='none', edgecolor='black', linewidth=1.5, label='Glacier boundary')
-
-# Get existing legend handles (from tracks) and add boundary patch
-handles, labels = ax.get_legend_handles_labels()
-handles.append(boundary_patch)
-
-# Add legend
-ax.legend(handles=handles, loc="upper left")
-
-# Labels, grid, ticks
-ax.set_xlabel("Easting (m)")
-ax.set_ylabel("Northing (m)")
-ax.grid(visible=True, linestyle='--', alpha=0.5)
-ax.tick_params(axis='both', labelsize=10)
-
-plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "dGPS_with_boundary.png"), dpi=300)
-plt.show()
 
 # %% [cell 12]
 with rasterio.open(raster_file) as src:
