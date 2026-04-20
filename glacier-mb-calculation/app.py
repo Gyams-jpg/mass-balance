@@ -174,7 +174,6 @@ with st.expander("Show Scientific Equations Used", expanded=False):
     st.markdown(
         "- Ice density: **880 ± 30 kg m⁻³**\n"
         "- Snow density: **400 ± 100 kg m⁻³**\n"
-        "- Elevation band interval: **50 m**\n"
         "- Regression used: **Theil-Sen** for elevation-difference estimation and **linear regression** for snow-thickness estimation"
     )
 
