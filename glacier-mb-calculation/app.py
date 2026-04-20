@@ -321,7 +321,7 @@ def main():
         corrected_dem_name_old = st.text_input("corrected_dem_name_old", value="dem_corr2.tif")
         output_clipped_dem_name_old = st.text_input("output_clipped_dem_name_old", value="dem_sub_corr2.tif")
 
-        run_btn = st.button("Run notebook workflow", type="primary", use_container_width=True)
+        run_btn = st.button("Run", type="primary", use_container_width=True)
 
     st.info("Required files: both dGPS CSVs, raster TIFF, and glacier shapefile ZIP. Snow depth files are optional.")
 
