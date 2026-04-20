@@ -25,6 +25,7 @@ def normalize_crs_to_epsg(crs_obj):
     except Exception:
         return None
 Time_period = t2 - t1
+elevation_interval = int(elevation_interval) if 'elevation_interval' in globals() else 50
 
 def validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg):
     glacier_gdf = gpd.read_file(glacier_shp_path)
@@ -499,7 +500,7 @@ plt.savefig(os.path.join(output_dir, "corrected_Dem.png"),dpi=300)
 plt.show()
 
 fig, ax = plt.subplots()
-plt.hist(geo_gdf1['dgps_dem_diff'], bins=50)
+plt.hist(geo_gdf1['dgps_dem_diff'], bins=elevation_interval)
 plt.axvline(dgps_dem_diff_avg, color='red', ls='--', lw=2)
 plt.show()
 
@@ -530,7 +531,7 @@ def clip_dem(dem_path, glacier_shp_path, output_clipped_dem):
     return output_clipped_dem
 
 # Step 2: Classify elevations and calculate area in each class
-def classify_and_calculate_area(path, elevation_interval=50):
+def classify_and_calculate_area(path, elevation_interval=elevation_interval):
     with rasterio.open(path) as src:
         dem_data = src.read(1)
         dem_data = dem_data[dem_data > 0]  # Filter out no-data values
@@ -573,7 +574,7 @@ def plot_elevation_vs_area(bins, area_per_class):
     return mid_bins
 
 clipped_dem = clip_dem(corrected_dem, glacier_shp_path, output_clipped_dem)
-elev_bins, area_per_class = classify_and_calculate_area(output_clipped_dem, elevation_interval=50)
+elev_bins, area_per_class = classify_and_calculate_area(output_clipped_dem, elevation_interval=elevation_interval)
 mid_bins = plot_elevation_vs_area(elev_bins, area_per_class)
 
 # %% [cell 17]
@@ -638,7 +639,7 @@ plt.legend()
 plt.show()
 
 fig, ax = plt.subplots()
-plt.hist(geo_gdf2['dgps_dem_diff'], bins=50)
+plt.hist(geo_gdf2['dgps_dem_diff'], bins=elevation_interval)
 plt.axvline(dgps_dem_diff_avg1, color='red', ls='--', lw=2)
 
 # %% [cell 19]
@@ -668,7 +669,7 @@ def clip_dem(dem_path, glacier_shp_path, output_clipped_dem1):
     return output_clipped_dem1
 
 # Step 2: Classify elevations and calculate area in each class
-def classify_and_calculate_area(path, elevation_interval=50):
+def classify_and_calculate_area(path, elevation_interval=elevation_interval):
     with rasterio.open(path) as src:
         dem_data = src.read(1)
         dem_data = dem_data[dem_data > 0]  # Filter out no-data values
@@ -711,7 +712,7 @@ def plot_elevation_vs_area(bins, area_per_class1):
     return mid_bins
 
 clipped_dem1 = clip_dem(corrected_dem1, glacier_shp_path, output_clipped_dem1)
-elev_bins, area_per_class1 = classify_and_calculate_area(output_clipped_dem1, elevation_interval=50)
+elev_bins, area_per_class1 = classify_and_calculate_area(output_clipped_dem1, elevation_interval=elevation_interval)
 mid_bins = plot_elevation_vs_area(elev_bins, area_per_class1)
 
 # %% [cell 20]
@@ -773,10 +774,10 @@ def plot_hypsometry_comparison(bins_a, area_a, bins_b, area_b,
 
 # %% [cell 21]
 # Old / auto-binned
-elev_bins, area_per_class = classify_and_calculate_area(output_clipped_dem, elevation_interval=50)
+elev_bins, area_per_class = classify_and_calculate_area(output_clipped_dem, elevation_interval=elevation_interval)
 
 # New / fixed 4873–5173
-elev_bins1, area_per_class1 = classify_and_calculate_area(output_clipped_dem1, elevation_interval=50)
+elev_bins1, area_per_class1 = classify_and_calculate_area(output_clipped_dem1, elevation_interval=elevation_interval)
 
 # Plot comparison
 plot_hypsometry_comparison(
@@ -1323,7 +1324,7 @@ def get_elevation_for_coords(dem_path, coords):
 # --------------------------------------------------------------------
 # 3. Compute boundary length in fixed elevation bands (5101–5501)
 # --------------------------------------------------------------------
-def compute_segment_band_lengths_fixed(segments, start_elev, end_elev, interval=50):
+def compute_segment_band_lengths_fixed(segments, start_elev, end_elev, interval=elevation_interval):
     """
     Computes total boundary length in each elevation band, using
     a fixed elevation range from 5101 m to 5501 m with given interval.
@@ -1358,7 +1359,7 @@ def compute_segment_band_lengths_fixed(segments, start_elev, end_elev, interval=
 # --------------------------------------------------------------------
 # 4. Create segment GeoDataFrame using same fixed bins
 # --------------------------------------------------------------------
-def create_segment_gdf_fixed(segments, start_elev, end_elev, crs, interval=50):
+def create_segment_gdf_fixed(segments, start_elev, end_elev, crs, interval=elevation_interval):
     """
     Creates a GeoDataFrame of boundary segments, each labeled with an
     elevation band using the fixed 5101–5501 m range.
@@ -1431,7 +1432,7 @@ end_elev   = elevations_raw[len(segments):]
 
 # Compute boundary lengths in fixed bands 5101–5501 m
 df_result, used_bins = compute_segment_band_lengths_fixed(
-    segments, start_elev, end_elev, interval=50
+    segments, start_elev, end_elev, interval=elevation_interval
 )
 
 print("Boundary length per elevation band:")
@@ -1441,7 +1442,7 @@ print("\nBins used:", used_bins)
 
 # Create GeoDataFrame of segments with band labels and plot
 segment_gdf = create_segment_gdf_fixed(
-    segments, start_elev, end_elev, crs, interval=50
+    segments, start_elev, end_elev, crs, interval=elevation_interval
 )
 
 plot_segments_by_band(segment_gdf)
