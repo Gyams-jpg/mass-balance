@@ -1455,7 +1455,19 @@ df_result
 df_result
 
 # %% [cell 53]
-bin_stats['Perimeter'] = df_result['Boundary Length (m)'].values
+bin_stats['Elevation Band'] = bin_stats['elevation_bin'].apply(
+    lambda x: f"{int(x.left)}-{int(x.right)} m"
+)
+
+bin_stats = bin_stats.merge(
+    df_result[['Elevation Band', 'Boundary Length (m)']],
+    on='Elevation Band',
+    how='left'
+)
+
+bin_stats['Perimeter'] = bin_stats['Boundary Length (m)'].fillna(0)
+
+bin_stats.drop(columns=['Boundary Length (m)'], inplace=True)
 
 # %% [cell 54]
 bin_stats
