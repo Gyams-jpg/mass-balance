@@ -1200,10 +1200,10 @@ bin_stats
 
 if snd1 is not None and os.path.exists(snd1):
     amb = np.sum(bin_stats['Annual_MB']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-    print(amb)
+    print(f"Mass balance(presence of snow) is:{amb} mm w.e. a⁻¹")
 else:
     amb = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-    print(f"Mass balance(no snow) is:'{amb}'")
+    print(f"Mass balance(no snow) is:{amb} mm w.e. a⁻¹")
 
 # %% [cell 47]
 x_agg = bin_stats['mean_bin'].astype(float).values.reshape(-1, 1)
@@ -1245,7 +1245,7 @@ bin_stats
 
 # %% [cell 49]
 amb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
-print(amb2)
+print(f"Annual Mass balance Aggregated(presence of snow):{amb2} mm w.e. a⁻¹")
 
 # %% [cell 50]
 amb_agg_data = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
