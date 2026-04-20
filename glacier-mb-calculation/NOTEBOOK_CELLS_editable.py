@@ -24,7 +24,7 @@ def normalize_crs_to_epsg(crs_obj):
         return crs_obj.to_epsg()
     except Exception:
         return None
-
+Time_period = t2-t1
 
 def validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg):
     glacier_gdf = gpd.read_file(glacier_shp_path)
@@ -375,8 +375,8 @@ glacier_gdf_01 = gpd.read_file(glacier_shp_path)
 fig, ax = plt.subplots(figsize=(10, 12))  # Adjust figure size for higher resolution
 glacier_gdf_01.plot(ax=ax,facecolor='none',edgecolor='black',linewidth=1.5,label="Glacier boundary")
 
-geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label= "2024 dGPS survey track")  # Customize style for geo_gdf2
-geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")  # Customize style for geo_gdf1
+geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label= f"{t1} dGPS survey track")  # Customize style for geo_gdf2
+geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label=f"{t2} dGPS survey track")  # Customize style for geo_gdf1
 
 # Add labels and legend
 ax.set_xlabel("Easting (m)", fontsize=12)
@@ -400,8 +400,8 @@ fig, ax = plt.subplots(figsize=(8, 12))  # Adjust figure size
 glacier_gdf_01.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=1.5)
 
 # Plot dGPS tracks
-geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label="2024 dGPS survey track")
-geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label="2025 dGPS survey track")
+geo_gdf2.plot(ax=ax, color='red', alpha=0.6, markersize=30, label=f"{t1} dGPS survey track")
+geo_gdf1.plot(ax=ax, color='blue', alpha=0.6, markersize=30, label=f"{t2} dGPS survey track")
 
 
 # Create manual legend patch for glacier boundary
@@ -784,8 +784,8 @@ plot_hypsometry_comparison(
     area_per_class,
     elev_bins1,
     area_per_class1,
-    label_a="2025",
-    label_b="2024"
+    label_a=f"{t2}",
+    label_b=f"{t1}"
 )
 
 # %% [cell 22]
@@ -832,7 +832,7 @@ ax.plot(
 ax.plot(
     range(merged_gdf['Elevation_left'].shape[0]), 
     merged_gdf['Elevation_left'], 
-    label='dGPS 2024', 
+    label=f'dGPS {t2}', 
     color='green', 
     linewidth=2, 
     linestyle='--'
@@ -840,7 +840,7 @@ ax.plot(
 ax.plot(
     range(merged_gdf['Elevation_right'].shape[0]), 
     merged_gdf['Elevation_right'], 
-    label='dGPS 2023', 
+    label=f'dGPS {t1}', 
     color='red', 
     linewidth=2, 
     linestyle=':'
@@ -1185,12 +1185,12 @@ if (
     snd1 is not None and os.path.exists(snd1) and
     snd2 is not None and os.path.exists(snd2)
 ):
-    bin_stats['Annual_MB'] = (
+    bin_stats['Annual_MB'] = ((
         880 * bin_stats['diff_pred']
-        + bin_stats['diff_snow_depth_2025'] * (400 - 880)
+        + bin_stats['diff_snow_depth_2025'] * (400 - 880))/(Time_period)
     )
 else:
-    bin_stats['Annual_MB_no_snow'] = (880 * bin_stats['diff_pred'])
+    bin_stats['Annual_MB_no_snow'] = ((880 * bin_stats['diff_pred']))/(Time_period)
 
 # %% [cell 45]
 bin_stats
@@ -1236,9 +1236,9 @@ plt.show()
 bin_stats['diff_pred2'] = theil_sen_agg.predict(x_agg)
 
 if snd1 is not None and os.path.exists(snd1):
-    bin_stats['Annual_MB_Aggregated'] = (880 * bin_stats['diff_pred2']+ bin_stats['diff_snow_depth_2025'] * (400-880))
+    bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']+ bin_stats['diff_snow_depth_2025'] * (400-880)))/(Time_period)
 else:
-    bin_stats['Annual_MB_Aggregated'] = (880 * bin_stats['diff_pred2'])
+    bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']))/(Time_period)
     
 bin_stats
 
@@ -1247,7 +1247,7 @@ amb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.s
 print(amb2)
 
 # %% [cell 50]
-amb_agg_data = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+amb_agg_data = (np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
 amb_agg_data
 np.sum(bin_stats['area'])/1000000
 
