@@ -1429,7 +1429,10 @@ elevations_raw = get_elevation_for_coords(corrected_dem, all_coords)
 # Split into start and end elevation arrays
 start_elev = elevations_raw[:len(segments)]
 end_elev   = elevations_raw[len(segments):]
+boundary_elev = np.concatenate([start_elev, end_elev])
 
+print("Minimum boundary elevation:", np.nanmin(boundary_elev))
+print("Maximum boundary elevation:", np.nanmax(boundary_elev))
 # Compute boundary lengths in fixed bands 5101–5501 m
 df_result, used_bins = compute_segment_band_lengths_fixed(
     segments, start_elev, end_elev, interval=elevation_interval
