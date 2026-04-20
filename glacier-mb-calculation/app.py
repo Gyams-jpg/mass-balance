@@ -309,7 +309,7 @@ def main():
         snow_2024 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
         snow_2025 = st.file_uploader("Current year Snow depth CSV  (optional)", type=["csv"])
 
-        st.header("Parameters from notebook")
+        st.header("Parameters")
         cell_size = st.number_input("cell_size", value=1.0, step=0.1)
         search_radius = st.number_input("search_radius", value=0.7, step=0.1)
         power = st.number_input("power", value=2, step=1)
