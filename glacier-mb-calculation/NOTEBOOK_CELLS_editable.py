@@ -852,7 +852,7 @@ ax.legend(
     framealpha=0.8, 
     edgecolor='black'
 )
-ax.set_xlabel('Smaples', fontsize=12)
+ax.set_xlabel('Samples', fontsize=12)
 ax.set_ylabel('Elevation Values (m)', fontsize=12)
 ax.grid(linestyle='--', alpha=0.6)
 ax.tick_params(axis='both', labelsize=12)
