@@ -238,6 +238,15 @@ def main():
     import streamlit as st
 
     user_epsg = st.sidebar.text_input("Projected CRS (EPSG)", value="32646")
+    with st.sidebar:
+    st.subheader("Time Settings")
+
+    t1 = int(st.text_input("t1 (Previous Year)", value="2024"))
+    t2 = int(st.text_input("t2 (Current Year)", value="2025"))
+
+    if t1 >= t2:
+        st.error("t1 must be less than t2")
+        return
 
     with st.sidebar:
         st.header("Inputs")
