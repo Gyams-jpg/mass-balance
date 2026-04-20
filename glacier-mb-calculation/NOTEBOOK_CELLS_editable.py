@@ -24,7 +24,7 @@ def normalize_crs_to_epsg(crs_obj):
         return crs_obj.to_epsg()
     except Exception:
         return None
-Time_period = t2-t1
+Time_period = t2 - t1
 
 def validate_crs_or_stop(glacier_shp_path, raster_file, user_epsg):
     glacier_gdf = gpd.read_file(glacier_shp_path)
@@ -355,8 +355,8 @@ corrected_dem = os.path.join(master_path, corrected_dem_name)
 output_clipped_dem = os.path.join(master_path, output_clipped_dem_name)  
 corrected_dem1 = os.path.join(master_path, corrected_dem_name_old)  
 output_clipped_dem1 = os.path.join(master_path, output_clipped_dem_name_old)
-gdf1 = pd.read_csv(gdf11) # 2024 # Left
-gdf2 = pd.read_csv(gdf22) # 2023 # Right
+gdf1 = pd.read_csv(gdf11) # current year(t2)# Left
+gdf2 = pd.read_csv(gdf22) # previous year(t1) # Right
 gdf2.head(3)
 
 # %% [cell 8]
