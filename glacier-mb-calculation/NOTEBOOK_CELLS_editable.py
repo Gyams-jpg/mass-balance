@@ -1247,7 +1247,7 @@ amb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.s
 print(amb2)
 
 # %% [cell 50]
-amb_agg_data = (np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+amb_agg_data = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
 amb_agg_data
 np.sum(bin_stats['area'])/1000000
 
