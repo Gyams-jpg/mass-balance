@@ -1093,7 +1093,7 @@ if snd1 is not None and os.path.exists(snd1):
     # --- Prepare data ---
 
 else:
-    print("no files")
+    print("no snd1 file")
 
 # %% [cell 41]
 
@@ -1140,7 +1140,7 @@ if snd2 is not None and os.path.exists(snd2):
 
     
 else:
-   print("no such files")
+   print("no snd2 file")
 
 # %% [cell 42]
 bin_stats
@@ -1413,16 +1413,14 @@ start_elev = elevations_raw[:len(segments)]
 end_elev   = elevations_raw[len(segments):]
 boundary_elev = np.concatenate([start_elev, end_elev])
 
-print("Minimum boundary elevation:", np.nanmin(boundary_elev))
-print("Maximum boundary elevation:", np.nanmax(boundary_elev))
+
 # Compute boundary lengths in fixed bands 5101–5501 m
 df_result, used_bins = compute_segment_band_lengths_fixed(
     segments, start_elev, end_elev, interval=elevation_interval
 )
 
 print("Boundary length per elevation band:")
-print(df_result)
-print("\nBins used:", used_bins)
+
 
 
 # Create GeoDataFrame of segments with band labels and plot
@@ -1524,7 +1522,7 @@ uncertainty_overall = (total_uncertainty_ice + total_uncertainty_snow) / 2
 # ---- Round and Output ----
 bin_stats = bin_stats.round(3)
 
-print(bin_stats)
+
 print("\nAverage bg:", round(avg_bg, 3))
 print("Total Area Average:", round(total_area_avg, 3))
 print("Total Summation (x - X)^2:", round(total_summation, 3))
