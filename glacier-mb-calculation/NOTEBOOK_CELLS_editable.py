@@ -1552,8 +1552,7 @@ final_report = pd.DataFrame({
 
 final_report = final_report.round(3)
 
-print("Final reporting table:")
-print(final_report)
+final_report
 
 # %% [cell 59]
 
