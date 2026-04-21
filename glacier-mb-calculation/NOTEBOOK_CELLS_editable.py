@@ -301,7 +301,7 @@ final_df_1 = out_df.sort_values('Elevation', ascending = False)
 final_df_1['sorted_order'] = np.arange(1, len(final_df_1) + 1)
 
 final_df_1.to_csv(gdf_2, index=False)
-print(f"Saved {t2} interpolated UTM points")
+print(f"Saved {t1} interpolated UTM points")
 
 
 # %% [cell 5]
