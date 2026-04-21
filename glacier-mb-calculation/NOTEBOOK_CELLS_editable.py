@@ -181,7 +181,7 @@ final_df = out_df.sort_values('Elevation', ascending = False)
 final_df['sorted_order'] = np.arange(1, len(final_df) + 1)
 final_df.to_csv(gdf_1, index=False)
 print(f"Saved interpolated UTM points to: {gdf_1}")
-print(final_df.head())
+
 
 # %% [cell 3]
 
@@ -302,7 +302,7 @@ final_df_1['sorted_order'] = np.arange(1, len(final_df_1) + 1)
 
 final_df_1.to_csv(gdf_2, index=False)
 print(f"Saved interpolated UTM points to: {gdf_2}")
-print(final_df_1.head())
+
 
 # %% [cell 5]
 """Only this section needs u"""
@@ -415,6 +415,7 @@ with rasterio.open(raster_file) as src:
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     geo_gdf1.plot(ax=ax)
     ax.set_title('Raw Dem')
+    plt.close(fig)
     profile = src.profile
     data = src.read(1)
 
@@ -441,6 +442,7 @@ with rasterio.open(corrected_dem) as src:
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     ax.set_title('Corr Dem')
     geo_gdf1.plot(ax=ax)
+    plt.close(fig)
 # %% [cell 13]
 geo_gdf2.head(3)
 
@@ -458,7 +460,7 @@ geo_gdf1['dem_corr'] = geo_gdf1['raster_raw_value'] - dgps_dem_diff_avg
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf1['sorted_order'],geo_gdf1['dgps_dem_diff'])
-plt.show()
+#plt.show()
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf1['sorted_order'],geo_gdf1['Elevation'], label='dGPS')
@@ -539,7 +541,7 @@ def plot_elevation_vs_area(bins, area_per_class):
     plt.yticks(mid_bins,fontsize=12)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "hypsometry.png"),dpi=450)
-    plt.show()
+    #plt.show()
     return mid_bins
 
 clipped_dem = clip_dem(corrected_dem, glacier_shp_path, output_clipped_dem)
@@ -567,6 +569,7 @@ with rasterio.open(raster_file) as src:
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     geo_gdf2.plot(ax=ax)
     ax.set_title('Raw Dem')
+    plt.close(fig)
     profile = src.profile
     data = src.read(1)
 
@@ -593,13 +596,14 @@ with rasterio.open(corrected_dem1) as src:
     ax = rasterio.plot.show(src, extent=extent, ax=ax, cmap="pink")
     ax.set_title('Corr Dem')
     geo_gdf2.plot(ax=ax)
+    plt.close(fig)
 
 # %% [cell 18]
 geo_gdf2['dem_corr'] = geo_gdf2['raster_raw_value'] - dgps_dem_diff_avg1
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf2['sorted_order'],geo_gdf2['dgps_dem_diff'])
-plt.show()
+#plt.show()
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf2['Elevation'], label='dGPS')
@@ -677,7 +681,7 @@ def plot_elevation_vs_area(bins, area_per_class1):
     plt.yticks(mid_bins,fontsize=12)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "hypsometry.png"),dpi=450)
-    plt.show()
+    #plt.show()
     return mid_bins
 
 clipped_dem1 = clip_dem(corrected_dem1, glacier_shp_path, output_clipped_dem1)
