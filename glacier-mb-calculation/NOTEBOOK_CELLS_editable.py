@@ -1542,9 +1542,9 @@ final_mb_col = 'Annual_MB' if 'Annual_MB' in bin_stats.columns else 'Annual_MB_n
 
 final_report = pd.DataFrame({
     'Elevation Band': bin_stats['Elevation Band'],
-    'Area Average': bin_stats['area_average'],
-    'Average Elev Diff': bin_stats['final_mean'],
-    'Annual MB': bin_stats[final_mb_col],
+    'Area average': bin_stats['area_average'],
+    'Average elev diff': bin_stats['final_mean'],
+    'Area average MB': bin_stats[final_mb_col],
     'Perimeter': bin_stats['Perimeter'],
     'Uncertainty Ice': bin_stats['Uncertainty Ice'],
     'Uncertainty Snow': bin_stats['Uncertainty Snow'],
