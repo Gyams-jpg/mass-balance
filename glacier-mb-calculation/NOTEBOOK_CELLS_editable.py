@@ -1208,7 +1208,7 @@ bin_stats['diff_pred2'] = theil_sen_agg.predict(x_agg)
 if snd1 is not None and os.path.exists(snd1):
     bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']+ bin_stats[f'diff_snow_depth_{t2}'] * (400-880)))/(Time_period)
 else:
-    bin_stats['Annual_MB_Aggregated_no_snow'] = ((880 * bin_stats['diff_pred2']))/(Time_period)
+    bin_stats['Annual_MB_Aggregated'] = ((880 * bin_stats['diff_pred2']))/(Time_period)
     
 bin_stats
 if snd1 is not None and os.path.exists(snd1):
@@ -1216,7 +1216,7 @@ if snd1 is not None and os.path.exists(snd1):
     print(f"Annual Mass balance Aggregated(presence of snow):{amb2} mm w.e. a⁻¹")
 
 else:
-    amb2 = np.sum(bin_stats['Annual_MB_no_snow']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
+    amb2 = np.sum(bin_stats['Annual_MB_Aggregated']* bin_stats['area_average'])/np.sum(bin_stats['area_average'])
     print(f"Mass balance(no snow) is:{amb2} mm w.e. a⁻¹")
 # %% [cell 49]
 
