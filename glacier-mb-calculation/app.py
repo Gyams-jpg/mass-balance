@@ -225,6 +225,9 @@ def render_namespace_outputs(ns):
     if "df_result" in ns:
         st.subheader("Boundary-segment result")
         st.dataframe(ns["df_result"])
+    if "final_report" in ns:
+        st.subheader("Final reporting table")
+        st.dataframe(ns["final_report"])
     summary = {}
     for key in ["amb", "amb2", "amb_agg_data"]:
         if key in ns:
