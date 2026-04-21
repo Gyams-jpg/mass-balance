@@ -337,12 +337,12 @@ gdf22 = gdf_2
 if snd1 is not None and os.path.exists(snd1):
     snd11 = pd.read_csv(snd1)
 else:
-    print("snd1 not provided or file missing")
+    print("")
 
 if snd2 is not None and os.path.exists(snd2):
     snd22 = pd.read_csv(snd2)
 else:
-    print("snd2 not provided or file missing")
+    print("")
 
 if snd1 is not None:
     print(snd11.head(3))
@@ -526,7 +526,7 @@ def classify_and_calculate_area(path, elevation_interval=elevation_interval):
 
 def plot_elevation_vs_area(bins, area_per_class):
     mid_bins = (bins[:-1] + bins[1:]) / 2
-    plt.figure()
+    fig = plt.figure()
     plt.barh(
         mid_bins, 
         area_per_class, 
@@ -542,6 +542,7 @@ def plot_elevation_vs_area(bins, area_per_class):
     plt.yticks(mid_bins,fontsize=12)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "hypsometry.png"),dpi=450)
+    plt.close(fig)
     #plt.show()
     return mid_bins
 
@@ -667,7 +668,7 @@ def classify_and_calculate_area(path, elevation_interval=elevation_interval):
 
 def plot_elevation_vs_area(bins, area_per_class1):
     mid_bins = (bins[:-1] + bins[1:]) / 2
-    plt.figure()
+    fig = plt.figure()
     plt.barh(
         mid_bins, 
         area_per_class1, 
@@ -1025,14 +1026,14 @@ if snd1 is not None and os.path.exists(snd1):
     
     snd11.sort_values(by = 'Elevation')
 else:
-    print("snd1 not provided or file missing")
+    print("")
 
 if snd2 is not None and os.path.exists(snd2):
     snd22.head(7)
     
     snd22.sort_values(by = 'Elevation')
 else:
-    print("snd2 not provided or file missing")
+    print("")
 
 if snd1 is not None:
     print(snd11.head(3))
@@ -1154,7 +1155,7 @@ if (
     bin_stats[f'snow_depth_{t2}'] = mid_bin_snd2
     bin_stats[f'diff_snow_depth_{t2}'] = mid_bin_snd2 - mid_bin_snd1
 else:
-    print("snow files not fully provided or missing")
+    print("")
 
 # %% [cell 44]
 
