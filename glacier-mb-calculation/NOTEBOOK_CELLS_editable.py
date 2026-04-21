@@ -612,11 +612,13 @@ fig, ax = plt.subplots()
 plt.plot(geo_gdf2['Elevation'], label='dGPS')
 plt.plot(geo_gdf2['raster_corr_value'], label='DEM-Sat-Correct')
 plt.legend()
-plt.show()
+plt.close(fig)
+#plt.show()
 
 fig, ax = plt.subplots()
 plt.hist(geo_gdf2['dgps_dem_diff'], bins=elevation_interval)
 plt.axvline(dgps_dem_diff_avg1, color='red', ls='--', lw=2)
+plt.close(fig)
 
 # %% [cell 19]
 # Step 1: Clip the Corrected DEM with the glacier outline
