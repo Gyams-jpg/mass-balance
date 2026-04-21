@@ -229,7 +229,7 @@ def render_namespace_outputs(ns):
         st.subheader("Final reporting table")
         st.dataframe(ns["final_report"])
     summary = {}
-    for key in ["amb", "amb2", "amb_agg_data"]:
+    for key in ["Annual mass balance", "Annual mass balance aggregated"]:
         if key in ns:
             summary[key] = ns[key]
     if summary:
