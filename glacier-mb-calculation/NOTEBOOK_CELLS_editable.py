@@ -1537,7 +1537,23 @@ print("Overall Uncertainty Average:", round(uncertainty_overall, 3))
 bin_stats.to_csv(os.path.join(output_dir, "uncertainty_results.csv"), index=False)
 
 # %% [cell 58]
+# %% [cell final]
+final_mb_col = 'Annual_MB' if 'Annual_MB' in bin_stats.columns else 'Annual_MB_no_snow'
 
+final_report = pd.DataFrame({
+    'Elevation Band': bin_stats['Elevation Band'],
+    'Area Average': bin_stats['area_average'],
+    'Average Elev Diff': bin_stats['final_mean'],
+    'Annual MB': bin_stats[final_mb_col],
+    'Perimeter': bin_stats['Perimeter'],
+    'Uncertainty Ice': bin_stats['Uncertainty Ice'],
+    'Uncertainty Snow': bin_stats['Uncertainty Snow'],
+})
+
+final_report = final_report.round(3)
+
+print("Final reporting table:")
+print(final_report)
 
 # %% [cell 59]
 
