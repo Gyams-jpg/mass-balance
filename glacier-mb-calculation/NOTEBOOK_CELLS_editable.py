@@ -460,6 +460,7 @@ geo_gdf1['dem_corr'] = geo_gdf1['raster_raw_value'] - dgps_dem_diff_avg
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf1['sorted_order'],geo_gdf1['dgps_dem_diff'])
+plt.close(fig)
 #plt.show()
 
 fig, ax = plt.subplots()
@@ -603,6 +604,7 @@ geo_gdf2['dem_corr'] = geo_gdf2['raster_raw_value'] - dgps_dem_diff_avg1
 
 fig, ax = plt.subplots()
 plt.plot(geo_gdf2['sorted_order'],geo_gdf2['dgps_dem_diff'])
+plt.close(fig)
 #plt.show()
 
 fig, ax = plt.subplots()
@@ -681,6 +683,7 @@ def plot_elevation_vs_area(bins, area_per_class1):
     plt.yticks(mid_bins,fontsize=12)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "hypsometry.png"),dpi=450)
+    plt.close(fig)
     #plt.show()
     return mid_bins
 
@@ -1231,7 +1234,7 @@ amb_agg_data
 np.sum(bin_stats['area'])/1000000
 
 amb_array = [amb, amb_agg_data]
-print(amb_array)
+
 
 labels = ['Non-aggregated data', 'Aggregated data']
 
