@@ -1419,7 +1419,7 @@ df_result, used_bins = compute_segment_band_lengths_fixed(
     segments, start_elev, end_elev, interval=elevation_interval
 )
 
-print("Boundary length per elevation band:")
+
 
 
 
