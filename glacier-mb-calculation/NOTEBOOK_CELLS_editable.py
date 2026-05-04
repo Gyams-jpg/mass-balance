@@ -1556,3 +1556,86 @@ final_report
 
 # %% [cell 59]
 
+# %% [cell Direct Method]
+
+if stake_path is not None and os.path.exists(stake_path):
+
+    stake_reading = pd.read_csv(stake_path)
+
+    required_cols = {"Elevation", "hd"}
+    if not required_cols.issubset(stake_reading.columns):
+        raise ValueError(
+            f"Stake CSV must contain columns: {required_cols}. "
+            f"Found: {list(stake_reading.columns)}"
+        )
+
+    if not stake_reading.empty:
+
+        stake_reading = stake_reading.sort_values("Elevation").reset_index(drop=True)
+
+        x_Sh = stake_reading["Elevation"].astype(float).values.reshape(-1, 1)
+        y_Sh = stake_reading["hd"].astype(float).values
+
+        lin_reg_direct = LinearRegression().fit(x_Sh, y_Sh)
+
+        plt.figure()
+        plt.scatter(
+            x_Sh,
+            y_Sh,
+            color="royalblue",
+            edgecolor="black",
+            alpha=0.7,
+            label="Stake locations"
+        )
+        plt.plot(
+            x_Sh,
+            lin_reg_direct.predict(x_Sh),
+            color="darkred",
+            linestyle="--",
+            linewidth=2,
+            label="Linear regression line"
+        )
+        plt.grid(linestyle="--", alpha=0.6)
+        plt.xlabel("Elevation (m)")
+        plt.ylabel("Difference in stake height, hd (m)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+        mid_bin_hd = bin_stats["mean_bin"].astype(float).values.reshape(-1, 1)
+        bin_stats["hd"] = lin_reg_direct.predict(mid_bin_hd)
+
+        if (
+            snd1 is not None and os.path.exists(snd1)
+            and snd2 is not None and os.path.exists(snd2)
+            and f"diff_snow_depth_{t2}" in bin_stats.columns
+        ):
+            bin_stats["Direct_MB"] = (
+                880 * bin_stats["hd"]
+                + bin_stats[f"diff_snow_depth_{t2}"] * (400 - 880)
+            ) / Time_period
+
+            dmb = (
+                np.sum(bin_stats["Direct_MB"] * bin_stats["area_average"])
+                / np.sum(bin_stats["area_average"])
+            )
+
+            print(f"Mass balance from Direct/stake method: {dmb:.2f} mm w.e. a⁻¹")
+
+        else:
+            bin_stats["Direct_MB_no_snow"] = (
+                880 * bin_stats["hd"]
+            ) / Time_period
+
+            dmb = (
+                np.sum(bin_stats["Direct_MB_no_snow"] * bin_stats["area_average"])
+                / np.sum(bin_stats["area_average"])
+            )
+
+            print(f"Mass balance from Direct/stake method without snow: {dmb:.2f} mm w.e. a⁻¹")
+
+    else:
+        print("Stake file is empty → skipping Direct/stake method")
+
+else:
+    print("Stake file not provided → skipping Direct/stake method")
