@@ -298,6 +298,27 @@ def main():
                 file_name="snow_sample.csv",
                 mime="text/csv"
             )
+            st.markdown("---")
+
+            st.markdown("### Sample Stake height difference for Direct method CSV")
+            st.markdown(
+                "Expected columns: **ID, Elevation, hd**"
+            )
+
+            direct_sample = pd.DataFrame({
+                "ID": ["Stake 1", "Stake 2", "Stake 3"],
+                "Elevation": [5000, 5050, 5100],
+                "hd": [0.25, 0.18, 0.10]
+            })
+
+            st.dataframe(direct_sample, use_container_width=True)
+
+            st.download_button(
+                "Download stake height sample CSV",
+                direct_sample.to_csv(index=False),
+                file_name="direct_sample.csv",
+                mime="text/csv"
+            )
 
             st.info(
                 "Ensure numeric values only where required, correct column names, "
