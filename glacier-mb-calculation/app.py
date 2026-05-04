@@ -310,6 +310,10 @@ def main():
         glacier_zip = st.file_uploader("Glacier shapefile ZIP (.zip)", type=["zip"])
         snow_2024 = st.file_uploader("Previous year Snow depth CSV  (optional)", type=["csv"])
         snow_2025 = st.file_uploader("Current year Snow depth CSV  (optional)", type=["csv"])
+        stake_file = st.file_uploader(
+            "Stake height difference CSV for Direct method (optional)",
+            type=["csv"]
+        )
 
         st.header("Parameters")
         cell_size = st.number_input("cell_size", value=1.0, step=0.1)
@@ -322,6 +326,7 @@ def main():
         output_clipped_dem_name = st.text_input("output_clipped_dem_name", value="dem_sub_corr1.tif")
         corrected_dem_name_old = st.text_input("corrected_dem_name_old", value="dem_corr2.tif")
         output_clipped_dem_name_old = st.text_input("output_clipped_dem_name_old", value="dem_sub_corr2.tif")
+        
 
         run_btn = st.button("Run", type="primary", use_container_width=True)
 
@@ -357,6 +362,9 @@ def main():
 
         snd1 = save_uploaded_file(snow_2024, input_dir / "snow_1.csv") if snow_2024 is not None else None
         snd2 = save_uploaded_file(snow_2025, input_dir / "snow_2.csv") if snow_2025 is not None else None
+        stake_path = save_uploaded_file(
+            stake_file, input_dir / "stake_reading.csv"
+        ) if stake_file is not None else None
 
         gdf_1 = str(output_dir / "Thana_idw_interpolated_1m_utm.csv")
         gdf_2 = str(output_dir / "Thana_idw_interpolated_1m_utm_old.csv")
@@ -386,6 +394,7 @@ def main():
             "t1":t1,
             "t2":t2,
             "elevation_interval":elevation_interval,
+            "stake_path":stake_path,
         }
 
         progress = st.progress(0.0)
