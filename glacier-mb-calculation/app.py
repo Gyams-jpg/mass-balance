@@ -281,13 +281,13 @@ def main():
 
             st.markdown("### Sample Snow Depth CSV")
             st.markdown(
-                "Expected columns: **ID, Elevation, Snow_Depth**"
+                "Expected columns: **ID, Elevation, Snow_depth**"
             )
 
             snow_sample = pd.DataFrame({
                 "ID": ["Stake 1", "Stake 2", "Stake 3"],
                 "Elevation": [5000, 5050, 5100],
-                "Snow_Depth": [0.25, 0.18, 0.10]
+                "Snow_depth": [0.25, 0.18, 0.10]
             })
 
             st.dataframe(snow_sample, use_container_width=True)
