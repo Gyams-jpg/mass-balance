@@ -264,8 +264,8 @@ def main():
             dgps_sample = pd.DataFrame({
                 "Point_id": [1, 2, 3],
                 "Elevation": [5123.45, 5124.10, 5122.88],
-                "Northing": [3098765.12, 3098766.55, 3098768.20],
-                "Easting": [456789.33, 456790.12, 456792.01]
+                "Latitude": [3098765.12, 3098766.55, 3098768.20],
+                "Longitude": [456789.33, 456790.12, 456792.01]
             })
 
             st.dataframe(dgps_sample, use_container_width=True)
